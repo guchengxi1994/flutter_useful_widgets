@@ -13,6 +13,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
+  just_the_tooltip: ^0.0.12
+  calendar_date_picker2: ^0.3.5
 
 
 dev_dependencies:
