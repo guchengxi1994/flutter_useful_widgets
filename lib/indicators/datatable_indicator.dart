@@ -3,9 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 
-typedef QueryInitialData<Object> = List<Object> Function();
-typedef QueryByIndex<Object> = List<Object> Function(int index);
+typedef QueryInitialData<T> = dynamic Function();
+typedef QueryByIndex<T> = dynamic Function(int index);
 typedef IndicatorBuilder = Widget Function(Widget child);
+
+const double size = 30;
 
 class UsefulDatatableIndicator<Object> extends StatefulWidget {
   const UsefulDatatableIndicator(
@@ -13,17 +15,13 @@ class UsefulDatatableIndicator<Object> extends StatefulWidget {
       this.initialIndex = 1,
       required this.pageLength,
       this.countPerPage = 10,
-      required this.initialData,
       required this.whenIndexChanged,
-      this.indicatorWidth = 450,
       this.indicatorBuilder})
       : super(key: key);
   final int initialIndex;
   final int pageLength;
   final int countPerPage;
-  final QueryInitialData<Object> initialData;
   final QueryByIndex<Object> whenIndexChanged;
-  final double indicatorWidth;
   final IndicatorBuilder? indicatorBuilder;
 
   @override
@@ -76,72 +74,83 @@ class UsefulDatatableIndicatorState<T> extends State<UsefulDatatableIndicator> {
   @override
   Widget build(BuildContext context) {
     managePage();
-    return SizedBox(
-      width: widget.indicatorWidth,
-      height: 100,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: _list.mapIndexed((index, ele) {
-          if (index == 0) {
-            return GestureDetector(
-              onTap: () {
-                if (_pageIndex > 1) {
-                  setState(() {
-                    _pageIndex--;
-                    // 改变页码在这里发送事件通知
-                  });
-                }
-              },
-              child: buildPagerItem(child: Text(ele.toString())),
-            );
-          }
-          if (index == _list.length - 1) {
-            return GestureDetector(
-              onTap: () {
-                if (_pageIndex < _total) {
-                  setState(() {
-                    _pageIndex++;
-                    // 改变页码在这里发送事件通知
-                  });
-                }
-              },
-              child: buildPagerItem(child: Text(ele.toString())),
-            );
-          }
+    return Wrap(
+      spacing: 5,
+      children: _list.mapIndexed((index, ele) {
+        if (index == 0) {
           return GestureDetector(
             onTap: () {
-              if (ele != "...") {
+              if (_pageIndex > 1) {
                 setState(() {
-                  if (_pageIndex != ele) {
-                    _pageIndex = ele;
-                    // 改变页码在这里发送事件通知
-                  }
+                  _pageIndex--;
+                  // 改变页码在这里发送事件通知
                 });
               }
             },
-            child: buildPagerItem(
-                child: Text("$ele",
-                    // 当前页码对应的组件的样式
-                    style: ele == _pageIndex
-                        ? TextStyle(color: Colors.blue)
-                        : TextStyle(color: Colors.black))),
+            child: Container(
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      color: const Color.fromARGB(255, 230, 223, 223)),
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  color: ele == _pageIndex ? Colors.blue : Colors.white),
+              child: const Icon(Icons.chevron_left),
+            ),
           );
-        }).toList(),
-      ),
+        }
+        if (index == _list.length - 1) {
+          return GestureDetector(
+            onTap: () {
+              if (_pageIndex < _total) {
+                setState(() {
+                  _pageIndex++;
+                  // 改变页码在这里发送事件通知
+                });
+              }
+            },
+            // child: buildPagerItem(child: Text(ele.toString())),
+            child: Container(
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      color: const Color.fromARGB(255, 230, 223, 223)),
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  color: ele == _pageIndex ? Colors.blue : Colors.white),
+              child: const Icon(Icons.chevron_right),
+            ),
+          );
+        }
+        return GestureDetector(
+          onTap: () {
+            if (ele != "...") {
+              setState(() {
+                if (_pageIndex != ele) {
+                  _pageIndex = ele;
+                  // 改变页码在这里发送事件通知
+                }
+              });
+            }
+          },
+          child: Container(
+            width: size,
+            height: size,
+            decoration: BoxDecoration(
+                border:
+                    Border.all(color: const Color.fromARGB(255, 230, 223, 223)),
+                borderRadius: const BorderRadius.all(Radius.circular(4)),
+                color: ele == _pageIndex ? Colors.blue : Colors.white),
+            child: Center(
+              child: Text("$ele",
+                  // 当前页码对应的组件的样式
+                  style: ele == _pageIndex
+                      ? const TextStyle(color: Colors.white)
+                      : const TextStyle(color: Colors.black)),
+            ),
+          ),
+        );
+      }).toList(),
     );
-  }
-
-  Widget buildPagerItem({required Widget child}) {
-    return widget.indicatorBuilder == null
-        ? Container(
-            width: 50,
-            height: 50,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(),
-            margin: EdgeInsets.symmetric(),
-            child: child,
-          )
-        : widget.indicatorBuilder!(child);
   }
 }

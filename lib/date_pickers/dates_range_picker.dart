@@ -10,13 +10,15 @@ class UsefulDateRangePicker extends StatefulWidget {
       this.calendarWidth = 350,
       this.firstDate,
       this.lastDate,
-      this.locale = "zh"})
+      this.locale = "zh",
+      this.textStyle})
       : super(key: key);
   final double calendarWidth;
   final double calendarHeight;
   final DateTime? firstDate;
   final DateTime? lastDate;
   final String locale;
+  final TextStyle? textStyle;
 
   @override
   State<UsefulDateRangePicker> createState() => UsefulDateRangePickerState();
@@ -25,6 +27,8 @@ class UsefulDateRangePicker extends StatefulWidget {
 class UsefulDateRangePickerState extends State<UsefulDateRangePicker> {
   late DateTime firstDate = widget.firstDate ?? DateTime.now();
   late DateTime lastDate = widget.lastDate ?? DateTime.now();
+  late TextStyle textStyle = widget.textStyle ??
+      const TextStyle(color: Color.fromARGB(255, 159, 159, 159), fontSize: 11);
 
   @override
   Widget build(BuildContext context) {
@@ -60,19 +64,27 @@ class UsefulDateRangePickerState extends State<UsefulDateRangePicker> {
                 }
               }
             },
-            initialValue: [firstDate],
+            initialValue: [firstDate, lastDate],
           ),
         ),
         child: SizedBox(
-          width: 400,
-          height: 45,
+          width: 300,
+          height: 30,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _dateWrapper(firstDate.auto(locale: widget.locale)),
-              widget.locale == "zh" ? const Text("至") : const Text("To"),
-              _dateWrapper(firstDate.auto(locale: widget.locale))
+              widget.locale == "zh"
+                  ? Text(
+                      "至",
+                      style: textStyle,
+                    )
+                  : Text(
+                      "To",
+                      style: textStyle,
+                    ),
+              _dateWrapper(lastDate.auto(locale: widget.locale))
             ],
           ),
         ));
@@ -81,14 +93,39 @@ class UsefulDateRangePickerState extends State<UsefulDateRangePicker> {
   Widget _dateWrapper(String date) {
     return Container(
       padding: const EdgeInsets.all(5),
-      width: 180,
-      height: 38,
+      width: 120,
+      height: 30,
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(19)),
           border: Border.all(color: const Color.fromARGB(255, 232, 232, 232))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [const Icon(Icons.calendar_month_outlined), Text(date)],
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(
+            width: 13,
+            height: 13,
+            child: Icon(
+              Icons.calendar_month_outlined,
+              color: Color.fromARGB(255, 159, 159, 159),
+              size: 13,
+            ),
+          ),
+          const SizedBox(
+            width: 5,
+          ),
+          SizedBox(
+            // color: Colors.red,
+            height: 30,
+            // margin: EdgeInsets.only(bottom: 5),
+            child: Center(
+              child: Text(
+                date,
+                style: textStyle,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
