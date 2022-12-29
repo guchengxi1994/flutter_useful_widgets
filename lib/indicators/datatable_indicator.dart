@@ -3,13 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 
-typedef QueryInitialData<T> = dynamic Function();
-typedef QueryByIndex<T> = dynamic Function(int index);
+typedef QueryByIndex = dynamic Function(int selectedIndex);
 typedef IndicatorBuilder = Widget Function(Widget child);
 
 const double size = 30;
 
-class UsefulDatatableIndicator<Object> extends StatefulWidget {
+class UsefulDatatableIndicator extends StatefulWidget {
   const UsefulDatatableIndicator(
       {Key? key,
       this.initialIndex = 1,
@@ -21,7 +20,7 @@ class UsefulDatatableIndicator<Object> extends StatefulWidget {
   final int initialIndex;
   final int pageLength;
   final int countPerPage;
-  final QueryByIndex<Object> whenIndexChanged;
+  final QueryByIndex whenIndexChanged;
   final IndicatorBuilder? indicatorBuilder;
 
   @override
@@ -29,7 +28,7 @@ class UsefulDatatableIndicator<Object> extends StatefulWidget {
       UsefulDatatableIndicatorState();
 }
 
-class UsefulDatatableIndicatorState<T> extends State<UsefulDatatableIndicator> {
+class UsefulDatatableIndicatorState extends State<UsefulDatatableIndicator> {
   List _list = []; // 存放页码的数组
   late final int _total = widget.pageLength; // 页码数量（总数据量/一页需要展示多少条数据）
   late int _pageIndex = widget.initialIndex; // 当前页码
@@ -84,6 +83,7 @@ class UsefulDatatableIndicatorState<T> extends State<UsefulDatatableIndicator> {
                 setState(() {
                   _pageIndex--;
                   // 改变页码在这里发送事件通知
+                  widget.whenIndexChanged(_pageIndex);
                 });
               }
             },
@@ -106,6 +106,7 @@ class UsefulDatatableIndicatorState<T> extends State<UsefulDatatableIndicator> {
                 setState(() {
                   _pageIndex++;
                   // 改变页码在这里发送事件通知
+                  widget.whenIndexChanged(_pageIndex);
                 });
               }
             },
@@ -129,6 +130,7 @@ class UsefulDatatableIndicatorState<T> extends State<UsefulDatatableIndicator> {
                 if (_pageIndex != ele) {
                   _pageIndex = ele;
                   // 改变页码在这里发送事件通知
+                  widget.whenIndexChanged(_pageIndex);
                 }
               });
             }
