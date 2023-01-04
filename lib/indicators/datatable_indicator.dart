@@ -1,4 +1,4 @@
-// ignore_for_file: depend_on_referenced_packages
+// ignore_for_file: depend_on_referenced_packages, prefer_final_fields
 
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
@@ -30,7 +30,7 @@ class UsefulDatatableIndicator extends StatefulWidget {
 
 class UsefulDatatableIndicatorState extends State<UsefulDatatableIndicator> {
   List _list = []; // 存放页码的数组
-  late final int _total = widget.pageLength; // 页码数量（总数据量/一页需要展示多少条数据）
+  late int _total = 0; // 页码数量（总数据量/一页需要展示多少条数据）
   late int _pageIndex = widget.initialIndex; // 当前页码
 
   /*
@@ -72,6 +72,7 @@ class UsefulDatatableIndicatorState extends State<UsefulDatatableIndicator> {
 
   @override
   Widget build(BuildContext context) {
+    _total = widget.pageLength;
     managePage();
     return Wrap(
       spacing: 5,
