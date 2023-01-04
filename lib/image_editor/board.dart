@@ -16,12 +16,11 @@ class UsefulImageEditorBoard extends StatelessWidget {
         ChangeNotifierProvider(
             create: (_) => EditorController()
               ..addWidget(const ImageView())
-              ..addWidget(RectBox(
-                imgData: imageData,
-              ))),
+              ..addWidget(RectBox())),
         ChangeNotifierProvider(create: (_) => ImageController())
       ],
       builder: (ctx, child) {
+        final details = ctx.watch<ImageController>().baseDetails;
         return Container(
           decoration: BoxDecoration(
               image: DecorationImage(image: imageData, fit: BoxFit.fill)),
@@ -30,6 +29,23 @@ class UsefulImageEditorBoard extends StatelessWidget {
               Container(
                 color: ctx.watch<EditorController>().currentColor,
               ),
+              if (details != null)
+                ClipRect(
+                    clipper: MyClipper(
+                        details.ymin,
+                        details.xmin,
+                        details.xmax - details.xmin,
+                        details.ymax - details.ymin), //使用自定义的clipper
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: imageData,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    )),
               ...ctx.watch<EditorController>().boardWidgets
             ],
           ),

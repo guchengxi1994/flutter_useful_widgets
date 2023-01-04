@@ -8,6 +8,10 @@ class UsefulImageEditor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      width: 400,
+      height: 50,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
+    );
   }
 }

@@ -34,16 +34,17 @@ class MyClipper extends CustomClipper<Rect> {
   );
 
   @override
-  Rect getClip(Size size) => Rect.fromLTWH(left, top, width, height);
+  Rect getClip(Size size) {
+    return Rect.fromLTWH(left, top, width, height);
+  }
 
   @override
-  bool shouldReclip(CustomClipper<Rect> oldClipper) => false;
+  bool shouldReclip(CustomClipper<Rect> oldClipper) => true;
 }
 
 class RectBox extends StatelessWidget {
-  RectBox({Key? key, required this.imgData}) : super(key: key);
+  RectBox({Key? key}) : super(key: key);
   late RectDetails? details = null;
-  final ImageProvider imgData;
 
   @override
   Widget build(BuildContext context) {
@@ -68,39 +69,6 @@ class RectBox extends StatelessWidget {
             // color: Colors.transparent,
           ),
           child: Stack(children: [
-            ClipRect(
-              clipper: MyClipper(details!.xmin, details!.ymin,
-                  details!.xmax - details!.xmin, details!.ymax - details!.ymin),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: imgData,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              ),
-            ),
-            // DecoratedBox(
-            //   decoration: BoxDecoration(color: Colors.red),
-            //   child: ClipRect(
-            //       clipper: MyClipper(
-            //           details!.xmin,
-            //           details!.ymin,
-            //           details!.xmax - details!.xmin,
-            //           details!.ymax - details!.ymin), //使用自定义的clipper
-            //       child: Container(
-            //         width: MediaQuery.of(context).size.width,
-            //         height: MediaQuery.of(context).size.height,
-            //         decoration: BoxDecoration(
-            //           image: DecorationImage(
-            //             image: imgData,
-            //             fit: BoxFit.fill,
-            //           ),
-            //         ),
-            //       )),
-            // ),
             // left top
             Positioned(
                 left: 0,
