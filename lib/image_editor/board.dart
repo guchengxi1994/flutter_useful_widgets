@@ -1,13 +1,18 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_useful_widgets/image_editor/rect.dart';
 import 'package:provider/provider.dart';
 
 import 'controllers.dart';
+import 'image_editor.dart';
 
 class UsefulImageEditorBoard extends StatelessWidget {
-  const UsefulImageEditorBoard({Key? key, required this.imageData})
-      : super(key: key);
-  final ImageProvider imageData;
+  const UsefulImageEditorBoard({
+    Key? key,
+    required this.imageData,
+  }) : super(key: key);
+  final Uint8List imageData;
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +22,15 @@ class UsefulImageEditorBoard extends StatelessWidget {
             create: (_) => EditorController()
               ..addWidget(const ImageView())
               ..addWidget(RectBox())),
-        ChangeNotifierProvider(create: (_) => ImageController())
+        ChangeNotifierProvider(
+            create: (_) => ImageController(imgData: imageData))
       ],
       builder: (ctx, child) {
         final details = ctx.watch<ImageController>().baseDetails;
         return Container(
           decoration: BoxDecoration(
-              image: DecorationImage(image: imageData, fit: BoxFit.fill)),
+              image: DecorationImage(
+                  image: MemoryImage(imageData), fit: BoxFit.fill)),
           child: Stack(
             children: [
               Container(
@@ -41,7 +48,7 @@ class UsefulImageEditorBoard extends StatelessWidget {
                       height: MediaQuery.of(context).size.height,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: imageData,
+                          image: MemoryImage(imageData),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -125,6 +132,7 @@ class ImageViewState extends State<ImageView> {
         context
             .read<EditorController>()
             .changeStatus(EditorStatus.generateDone);
+        context.read<EditorController>().addWidget(const NavigatorWidget());
       },
     );
   }
