@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../annotation.dart';
 import 'controllers.dart';
 
 /// 工具栏
@@ -45,15 +47,19 @@ class NavigatorWidget extends StatelessWidget {
                         flex: 1,
                         child: InkWell(
                           onTap: () async {
-                            final result = await context
-                                .read<ImageController>()
-                                .capture(MediaQuery.of(context).size.width,
-                                    MediaQuery.of(context).size.height);
-
-                            // final result = await context
-                            //     .read<ImageController>()
-                            //     .getImgWidget(MediaQuery.of(context).size.width,
-                            //         MediaQuery.of(context).size.height);
+                            final Object? result;
+                            if (kIsWeb) {
+                              result = await context
+                                  .read<ImageController>()
+                                  .getImgWidget(
+                                      MediaQuery.of(context).size.width,
+                                      MediaQuery.of(context).size.height);
+                            } else {
+                              result = await context
+                                  .read<ImageController>()
+                                  .capture(MediaQuery.of(context).size.width,
+                                      MediaQuery.of(context).size.height);
+                            }
 
                             if (result != null) {
                               showGeneralDialog(
@@ -70,20 +76,17 @@ class NavigatorWidget extends StatelessWidget {
                                               SizedBox(
                                                 width: 500,
                                                 height: 400,
-                                                child: Image.memory(
-                                                  result.buffer.asUint8List(),
-                                                  fit: BoxFit.fill,
-                                                ),
-
-                                                // child: CustomPaint(
-                                                //   painter: result,
-                                                // ),
+                                                child: kIsWeb
+                                                    ? _webBuilder(
+                                                        result as CustomPainter)
+                                                    : _builder(
+                                                        result as ByteData),
                                               ),
                                               ElevatedButton(
                                                   onPressed: () {
                                                     Navigator.of(context).pop();
                                                   },
-                                                  child: Text("确定"))
+                                                  child: const Text("确定"))
                                             ],
                                           ),
                                         ),
@@ -110,5 +113,19 @@ class NavigatorWidget extends StatelessWidget {
                 ),
               ),
             )));
+  }
+
+  @FeatureNotSupport("better dont be used on web")
+  Widget _webBuilder(CustomPainter painter) {
+    return CustomPaint(
+      painter: painter,
+    );
+  }
+
+  Widget _builder(ByteData data) {
+    return Image.memory(
+      data.buffer.asUint8List(),
+      fit: BoxFit.fill,
+    );
   }
 }
