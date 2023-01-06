@@ -14,9 +14,28 @@ class UsefulImageEditor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 400,
-      height: 50,
+      width: 320,
+      height: 40,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          InkWell(
+            onTap: () {},
+            child: const Icon(
+              Icons.text_fields,
+              color: Colors.black,
+            ),
+          ),
+          InkWell(
+            onTap: () {},
+            child: const Icon(
+              Icons.rectangle_outlined,
+              color: Colors.black,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
