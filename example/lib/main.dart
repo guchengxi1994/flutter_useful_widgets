@@ -5,6 +5,7 @@ import 'useful_datatable_indicator_demo.dart' deferred as indicator;
 import 'useful_image_editor_demo.dart' deferred as image_editor;
 import 'useful_simple_color_picker_demo.dart' deferred as color_picker;
 import 'useful_simple_datatable_demo.dart' deferred as datatable;
+import 'useful_simple_group_picker_demo.dart' deferred as group_picker;
 
 void main() {
   runApp(const MyApp());
@@ -78,6 +79,13 @@ class _MyHomePageState extends State<MyHomePage> {
             title: const Text("UsefulSimpleDatatableDemo"),
             trailing: const Icon(Icons.navigation_rounded),
           ),
+          ListTile(
+            onTap: () {
+              Navigator.of(context).pushNamed(Routers.pageGroupPicker);
+            },
+            title: const Text("UsefulSimpleGroupPickerDemo"),
+            trailing: const Icon(Icons.navigation_rounded),
+          ),
         ],
       ),
     );
@@ -91,6 +99,7 @@ class Routers {
   static const String pageEditor = "/pageEditor";
   static const String pageColorPicker = "/pageColorPicker";
   static const String pageSimpleDatatable = "/pageSimpleDatatable";
+  static const String pageGroupPicker = "/pageGroupPicker";
 
   static Map<String, WidgetBuilder> routers = {
     pageMain: (context) => const MyHomePage(),
@@ -110,5 +119,8 @@ class Routers {
     pageSimpleDatatable: (context) => FutureLoaderWidget(
         builder: (context) => datatable.UsefulSimpleDatatableDemo(),
         loadWidgetFuture: datatable.loadLibrary()),
+    pageGroupPicker: (context) => FutureLoaderWidget(
+        builder: (context) => group_picker.UsefulSimpleGroupPickerDemo(),
+        loadWidgetFuture: group_picker.loadLibrary()),
   };
 }

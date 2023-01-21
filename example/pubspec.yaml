@@ -46,6 +46,7 @@ deferred-components:
       - package:flutter_useful_widgets_example/useful_image_editor_demo.dart
       - package:flutter_useful_widgets_example/useful_simple_color_picker_demo.dart
       - package:flutter_useful_widgets_example/useful_simple_datatable_demo.dart
+      - package:flutter_useful_widgets_example/useful_simple_group_picker_demo.dart
 
 dev_dependencies:
   flutter_test:
