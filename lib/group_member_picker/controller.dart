@@ -27,6 +27,9 @@ class GroupMemberPickerController extends ChangeNotifier {
 
   prepareData(List<GroupDetails> details) async {
     groupDetails = List.from(details);
+    for (final i in groupDetails) {
+      allMembers.addAll(i.members);
+    }
 
     // // print(allMembers.length);
     notifyListeners();
