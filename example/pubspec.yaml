@@ -36,6 +36,16 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_useful_widgets: 
     path: ../
+  loading_indicator: ^3.1.0
+
+deferred-components:
+  - name: demo
+    libraries:
+      - package:flutter_useful_widgets_example/useful_datatable_indicator_demo.dart
+      - package:flutter_useful_widgets_example/useful_date_range_picker_demo.dart
+      - package:flutter_useful_widgets_example/useful_image_editor_demo.dart
+      - package:flutter_useful_widgets_example/useful_simple_color_picker_demo.dart
+      - package:flutter_useful_widgets_example/useful_simple_datatable_demo.dart
 
 dev_dependencies:
   flutter_test:

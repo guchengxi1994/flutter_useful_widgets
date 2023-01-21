@@ -5,3 +5,4 @@ export './indicators/indicators.dart';
 export './sidebar/sidebar.dart';
 export './image_editor/lib.dart';
 export './color_pickers/color_pickers.dart';
+export './datatable/datatable.dart';
