@@ -22,6 +22,8 @@ dependencies:
   provider: ^6.0.5 # image_editor
   arrow_path: ^3.0.0 # image_editor
 
+  dropdown_button2: ^1.9.2 # drop down
+
 
 dev_dependencies:
   flutter_test:
