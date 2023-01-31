@@ -107,6 +107,7 @@ class _UsefulSimpleDatatableState extends State<UsefulSimpleDatatable> {
             child: SingleChildScrollView(
               controller: controller,
               child: DataTable(
+                horizontalMargin: 0,
                 dividerThickness: 1,
                 columnSpacing: 0,
                 rows: notifier.value
