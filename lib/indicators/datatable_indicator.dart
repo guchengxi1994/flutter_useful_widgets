@@ -3,10 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 
-typedef QueryByIndex = dynamic Function(int selectedIndex);
-typedef IndicatorBuilder = Widget Function(Widget child);
-
-const double size = 30;
+import 'base.dart';
 
 class UsefulDatatableIndicator extends StatefulWidget {
   const UsefulDatatableIndicator(

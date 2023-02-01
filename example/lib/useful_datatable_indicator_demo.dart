@@ -9,11 +9,20 @@ class UsefulDatatableIndicatorDemo extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-          child: UsefulDatatableIndicator(
-        pageLength: 20,
-        whenIndexChanged: (int index) {
-          debugPrint(index.toString());
-        },
+          child: Column(
+        children: [
+          UsefulDatatableIndicator(
+            pageLength: 20,
+            whenIndexChanged: (int index) {
+              debugPrint(index.toString());
+            },
+          ),
+          UsefulDatatableIndicator2(
+            whenIndexChanged: (int index) {
+              debugPrint(index.toString());
+            },
+          ),
+        ],
       )),
     );
   }

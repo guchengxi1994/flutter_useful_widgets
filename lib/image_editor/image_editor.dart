@@ -81,6 +81,7 @@ class NavigatorWidget extends StatelessWidget {
                             }
 
                             if (result != null) {
+                              // ignore: use_build_context_synchronously
                               showGeneralDialog(
                                   context: context,
                                   pageBuilder: ((context, animation,
