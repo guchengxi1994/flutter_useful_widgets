@@ -47,6 +47,11 @@ class SimpleDataProvider<U extends BaseData> extends BaseDataProvider {
 
   ValueNotifier<List<U>> notifier = ValueNotifier([]);
 
+  // void forceUpdate(List<U> list) {
+  //   notifier.value.clear();
+  //   notifier.value = List.from(list);
+  // }
+
   Future init() async {
     List<U> list = await super.initial() as List<U>;
     notifier.value = List.from(list);
