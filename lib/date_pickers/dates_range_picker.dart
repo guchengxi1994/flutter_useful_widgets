@@ -59,15 +59,15 @@ class UsefulDateRangePickerState extends State<UsefulDateRangePicker> {
             onValueChanged: (value) {
               // print(value.length);
               if (value.length == 2) {
-                if (value[0]!.isBefore(value[1]!)) {
+                if (value[0].isBefore(value[1])) {
                   setState(() {
-                    firstDate = value[0]!;
-                    lastDate = value[1]!;
+                    firstDate = value[0];
+                    lastDate = value[1];
                   });
                 } else {
                   setState(() {
-                    firstDate = value[1]!;
-                    lastDate = value[2]!;
+                    firstDate = value[1];
+                    lastDate = value[2];
                   });
                 }
 
@@ -76,7 +76,7 @@ class UsefulDateRangePickerState extends State<UsefulDateRangePicker> {
                 }
               }
             },
-            initialValue: [firstDate, lastDate],
+            value: [firstDate, lastDate],
           ),
         ),
         child: !widget.multiRow
